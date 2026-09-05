@@ -6,7 +6,7 @@
  * Copie de secours du Google Sheet : les pages l'affichent au
  * chargement, puis la remplacent par le Sheet relu en direct. */
 window.EARIARY_PARTENAIRES = {
-  "genere_le": "2026-09-05T12:43:55Z",
+  "genere_le": "2026-09-05T16:05:26Z",
   "champs": [],
   "regions_par_ville": {
     "Antsiranana": "Diana",
