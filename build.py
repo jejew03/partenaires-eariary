@@ -70,6 +70,11 @@ COLONNES = (
 # une colonne facultative n'est reconnue que par son intitulé, pour ne pas
 # présenter une colonne quelconque comme un numéro de téléphone.
 OPTIONNELLES = (
+    # La description passe en premier : elle est servie avant les autres champs
+    # dans le popup et sous le nom dans le tableau, et son intitulé ne doit
+    # jamais pouvoir être capté par un mot-clé plus large listé en dessous.
+    ("description", ("description", "descriptif", "présentation", "presentation",
+                     "à propos", "a propos")),
     ("telephone", ("téléphone", "telephone", "tel.", "tél.", "phone", "mobile",
                    "whatsapp", "contact")),
     ("adresse", ("adresse", "address", "quartier", "rue")),

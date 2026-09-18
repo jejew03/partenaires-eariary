@@ -44,6 +44,10 @@
   // Colonnes facultatives : reconnues uniquement par leur intitulé, jamais par
   // leur position. Mots-clés écrits sans accent (voir `plier`).
   var OPTIONNELLES = [
+    // La description passe en premier, comme dans build.py : elle est servie
+    // avant les autres champs, et son intitulé ne doit jamais pouvoir être
+    // capté par un mot-clé plus large listé en dessous.
+    { cle: "description", mots: ["description", "descriptif", "presentation", "a propos"] },
     {
       cle: "telephone",
       mots: ["telephone", "tel.", "phone", "mobile", "whatsapp", "contact"],
@@ -274,6 +278,7 @@
           e.province,
           e.lat,
           e.lon,
+          e.description || "",
           e.telephone || "",
           e.adresse || "",
           e.horaires || "",

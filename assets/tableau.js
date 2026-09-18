@@ -28,7 +28,7 @@
 
   // Champs facultatifs du Sheet, présents dans une fiche seulement s'ils sont
   // renseignés.
-  var CHAMPS_FACULTATIFS = ["adresse", "horaires", "telephone", "site"];
+  var CHAMPS_FACULTATIFS = ["description", "adresse", "horaires", "telephone", "site"];
 
   /* ------------------------------ Paramètres ------------------------------ */
 
@@ -263,6 +263,18 @@
   }
 
   /**
+   * Description libre, sous l'adresse et les horaires.
+   * Bloc à part, et non un segment de plus dans `sousLigne` : une phrase de
+   * présentation ne se lit pas alignée derrière un « · » avec une adresse. Le
+   * CSS la borne à deux lignes ; le texte entier reste dans l'infobulle.
+   */
+  function descriptionHtml(etablissement) {
+    if (!etablissement.description) return "";
+    var texte = echapper(etablissement.description);
+    return '<div class="desc" title="' + texte + '">' + texte + "</div>";
+  }
+
+  /**
    * Une ligne du tableau.
    * `data-label` sert d'étiquette de champ quand le tableau se replie en blocs
    * sous 680 px, les en-têtes de colonne étant alors masqués.
@@ -284,6 +296,7 @@
       echapper(etablissement.nom) +
       "</button>" +
       sousLigne(etablissement) +
+      descriptionHtml(etablissement) +
       "</td>" +
       '<td class="c-region" data-label="Région">' +
       echapper(etablissement.region || REGION_VIDE) +
@@ -436,7 +449,8 @@
         pliage(e.province).indexOf(recherche) === -1 &&
         pliage(e.region).indexOf(recherche) === -1 &&
         pliage(e.categorie).indexOf(recherche) === -1 &&
-        pliage(e.adresse || "").indexOf(recherche) === -1
+        pliage(e.adresse || "").indexOf(recherche) === -1 &&
+        pliage(e.description || "").indexOf(recherche) === -1
       ) {
         return false;
       }

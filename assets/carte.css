@@ -221,6 +221,19 @@
 .pop .tag .swatch { width: 7px; height: 7px; flex: none; }
 .pop .prov { margin-top: 0.3rem; font-size: 0.8rem; color: var(--ink-soft); }
 
+/* Description libre du Sheet : une phrase de présentation, donc un paragraphe
+   pleine largeur et non une ligne étiquetée. La hauteur est bornée — une
+   cellule du Sheet n'a pas de limite de longueur, le popup si. */
+.pop .desc {
+  margin: 0.45rem 0 0;
+  max-height: 7.5rem;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
 /* Champs facultatifs du Sheet : adresse, horaires, téléphone, site. Le bloc
    n'est pas produit du tout tant qu'aucun n'est renseigné. */
 .pop .fiche {

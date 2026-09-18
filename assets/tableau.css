@@ -126,6 +126,25 @@
 }
 .registre .c-nom .sous .sep { color: var(--rule-strong); margin: 0 0.35rem; }
 
+/* Description libre du Sheet. Bornée à deux lignes : la hauteur des lignes
+   doit rester régulière quelle que soit la longueur de la cellule, et sous
+   1024 px le tableau n'est plus en `table-layout: fixed` — sans largeur
+   maximale, une longue phrase élargirait la colonne du nom. Le texte entier
+   reste dans l'infobulle. */
+.registre .c-nom .desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin-top: 0.15rem;
+  max-width: 46ch;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--muted);
+  font-weight: 400;
+}
+
 .registre .c-type { white-space: nowrap; }
 .registre .c-type .swatch {
   display: inline-block;

@@ -21,7 +21,7 @@
 
   // Champs facultatifs du Sheet, présents dans une fiche seulement s'ils sont
   // renseignés. Ordre d'affichage dans le popup.
-  var CHAMPS_FACULTATIFS = ["adresse", "horaires", "telephone", "site"];
+  var CHAMPS_FACULTATIFS = ["description", "adresse", "horaires", "telephone", "site"];
 
   /* ------------------------------ Paramètres ------------------------------ */
 
@@ -179,6 +179,17 @@
     '<path d="M5 5h5V3H3v18h18v-7h-2v5H5V5Z"/></svg>';
 
   /**
+   * Description libre, en tête de popup : c'est une phrase sur le commerçant,
+   * pas un attribut étiqueté comme l'adresse ou les horaires. Affichée en
+   * entier — le popup est la vue de détail ; une description exceptionnellement
+   * longue défile dans son propre bloc plutôt que d'allonger le popup.
+   */
+  function descriptionHtml(etablissement) {
+    if (!etablissement.description) return "";
+    return '<p class="desc">' + echapper(etablissement.description) + "</p>";
+  }
+
+  /**
    * Bloc <dl> des champs facultatifs renseignés, ou "" s'il n'y en a aucun —
    * auquel cas le popup n'affiche même pas le filet de séparation.
    */
@@ -273,6 +284,7 @@
       '<div class="prov">' +
       echapper(etablissement.province) +
       "</div>" +
+      descriptionHtml(etablissement) +
       ficheHtml(etablissement) +
       '<div class="coords">' +
       etablissement.lat.toFixed(6) +

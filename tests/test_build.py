@@ -165,7 +165,7 @@ def test_feuille_vide():
 
 ENTETE_ENRICHI = (
     "Province,Nom de l'établissement,Catégorie,Latitude / longitude,"
-    "Téléphone,Adresse,Horaires,Site web\n"
+    "Téléphone,Adresse,Horaires,Site web,Description\n"
 )
 
 
@@ -173,26 +173,28 @@ def test_colonnes_facultatives_lues():
     (etab,) = lire(
         ENTETE_ENRICHI
         + 'Toamasina,Chez X,Restaurant,"-18.15, 49.41",034 05 06 07,'
-        "Rue Bord de mer,Lun–Sam 8h–19h,chezx.mg\n"
+        "Rue Bord de mer,Lun–Sam 8h–19h,chezx.mg,Cuisine malgache face au port.\n"
     )
     assert etab["telephone"] == "034 05 06 07"
     assert etab["adresse"] == "Rue Bord de mer"
     assert etab["horaires"] == "Lun–Sam 8h–19h"
     assert etab["site"] == "chezx.mg"
+    assert etab["description"] == "Cuisine malgache face au port."
 
 
 def test_cellule_facultative_vide_absente_de_la_fiche():
     """Une clé absente, et non une chaîne vide : les pages testent la présence."""
     (etab,) = lire(
-        ENTETE_ENRICHI + 'Toamasina,Chez X,Restaurant,"-18.15, 49.41",,,,\n'
+        ENTETE_ENRICHI + 'Toamasina,Chez X,Restaurant,"-18.15, 49.41",,,,,\n'
     )
     assert "telephone" not in etab
     assert "adresse" not in etab
+    assert "description" not in etab
 
 
 def test_colonne_entierement_vide_non_annoncee():
     """Sinon le tableau afficherait une colonne « Contact » sans aucun numéro."""
-    csv = ENTETE_ENRICHI + 'Toamasina,Chez X,Restaurant,"-18.15, 49.41",,Rue A,,\n'
+    csv = ENTETE_ENRICHI + 'Toamasina,Chez X,Restaurant,"-18.15, 49.41",,Rue A,,,\n'
     assert champs(csv) == ["adresse"]
 
 
@@ -205,6 +207,61 @@ def test_colonne_obligatoire_non_reprise_par_une_facultative():
     (etab,) = lire(ENTETE + 'Toamasina,Chez X,Restaurant,"-18.15, 49.41"\n')
     assert etab["lat"] == -18.15
     assert "adresse" not in etab
+
+
+@pytest.mark.parametrize("intitule", ["Description", "Descriptif", "Présentation", "À propos"])
+def test_description_reconnue_par_ses_variantes(intitule):
+    """Le Sheet est tenu à la main : l'intitulé exact ne peut pas être imposé."""
+    csv = (
+        "Province,Nom de l'établissement,Catégorie,Latitude / longitude,"
+        + intitule
+        + "\n"
+        + 'Toamasina,Chez X,Restaurant,"-18.15, 49.41",Poissons grillés au feu de bois.\n'
+    )
+    (etab,) = lire(csv)
+    assert etab["description"] == "Poissons grillés au feu de bois."
+
+
+def test_description_ne_prend_pas_la_colonne_d_une_voisine():
+    """Une colonne par champ : « Contact » et « Site web » gardent la leur."""
+    csv = (
+        "Province,Nom de l'établissement,Catégorie,Latitude / longitude,"
+        "Description,Contact,Site web\n"
+        'Toamasina,Chez X,Restaurant,"-18.15, 49.41",Cuisine malgache.,034 05 06 07,chezx.mg\n'
+    )
+    (etab,) = lire(csv)
+    assert etab["description"] == "Cuisine malgache."
+    assert etab["telephone"] == "034 05 06 07"
+    assert etab["site"] == "chezx.mg"
+
+
+def test_description_ne_prend_pas_la_colonne_du_nom():
+    """« Description de l'établissement » porte un mot-clé de la colonne « nom ».
+
+    Les colonnes obligatoires sont attribuées avant les facultatives : le nom
+    reste sur sa colonne, la description sur la sienne.
+    """
+    csv = (
+        "Province,Nom de l'établissement,Catégorie,Latitude / longitude,"
+        "Description de l'établissement\n"
+        'Toamasina,Chez X,Restaurant,"-18.15, 49.41",Cuisine malgache.\n'
+    )
+    (etab,) = lire(csv)
+    assert etab["nom"] == "Chez X"
+    assert etab["description"] == "Cuisine malgache."
+
+
+def test_description_facultative_ligne_par_ligne():
+    """Une fiche sans description côtoie une fiche qui en a une."""
+    csv = (
+        "Province,Nom de l'établissement,Catégorie,Latitude / longitude,Description\n"
+        'Toamasina,Chez X,Restaurant,"-18.15, 49.41",Cuisine malgache.\n'
+        'Toamasina,Chez Y,Boutique,"-18.16, 49.42",\n'
+    )
+    avec, sans = lire(csv)
+    assert avec["description"] == "Cuisine malgache."
+    assert "description" not in sans
+    assert champs(csv) == ["description"]
 
 
 # --------------------------------------------------------------------------- #

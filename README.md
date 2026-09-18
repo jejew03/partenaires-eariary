@@ -182,6 +182,7 @@ vide, ni mention « non renseigné ».
 
 | Colonne | Intitulés reconnus | Où elle apparaît |
 |---|---|---|
+| Description | `Description`, `Descriptif`, `Présentation`, `À propos` | sous le nom dans le tableau (deux lignes, texte entier en infobulle), popup de la carte ; **entre aussi dans la recherche** |
 | Téléphone | `Téléphone`, `Tél.`, `Mobile`, `WhatsApp`, `Contact` | colonne **Contact** du tableau (numéro cliquable), popup et fiche de la carte |
 | Adresse | `Adresse`, `Quartier`, `Rue` | sous le nom dans le tableau, popup et fiche de la carte ; **entre aussi dans la recherche** |
 | Horaires | `Horaires`, `Ouverture`, `Heures` | sous le nom dans le tableau, popup de la carte |
@@ -192,8 +193,16 @@ leur intitulé, pour qu'une colonne quelconque ne soit jamais présentée comme 
 numéro de téléphone.
 
 La colonne « Contact » du tableau n'apparaît que si au moins un téléphone ou un
-site est renseigné. Adresse et horaires se placent sous le nom plutôt qu'en
-colonnes : à six colonnes, le tableau déborde dès le premier écran étroit.
+site est renseigné. Adresse, horaires et description se placent sous le nom
+plutôt qu'en colonnes : à six colonnes, le tableau déborde dès le premier écran
+étroit.
+
+La description est du texte libre, sans longueur imposée par le Sheet : une ou
+deux phrases. Le tableau n'en montre que deux lignes — la hauteur des lignes
+doit rester régulière — et garde le texte entier dans l'infobulle ; le popup de
+la carte l'affiche en entier, au-dessus des champs étiquetés, car c'est une
+phrase de présentation et non un attribut. Elle n'apparaît pas dans la liste
+latérale de la carte, qui reste un repère et non une fiche.
 
 ### Nettoyage appliqué
 
@@ -312,8 +321,8 @@ window.addEventListener("message", (event) => {
 | `selection` | clic sur une fiche ou un repère (carte), sur un nom (tableau) | `{ etablissement }` |
 
 `selection.etablissement` porte toujours `nom, categorie, region, province,
-lat, lon`, et les champs facultatifs (`adresse`, `horaires`, `telephone`,
-`site`) seulement lorsqu'ils sont renseignés.
+lat, lon`, et les champs facultatifs (`description`, `adresse`, `horaires`,
+`telephone`, `site`) seulement lorsqu'ils sont renseignés.
 
 `provenance` vaut `"instantane"` ou `"direct"` selon la source affichée. Ce
 champ ne s'appelle pas `source` : `source` identifie l'iframe dans l'enveloppe
