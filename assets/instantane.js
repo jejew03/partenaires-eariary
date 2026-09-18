@@ -6,8 +6,10 @@
  * Copie de secours du Google Sheet : les pages l'affichent au
  * chargement, puis la remplacent par le Sheet relu en direct. */
 window.EARIARY_PARTENAIRES = {
-  "genere_le": "2026-09-05T16:05:26Z",
-  "champs": [],
+  "genere_le": "2026-09-18T05:55:39Z",
+  "champs": [
+    "description"
+  ],
   "regions_par_ville": {
     "Antsiranana": "Diana",
     "Fianarantsoa": "Haute Matsiatra",
@@ -24,6 +26,7 @@ window.EARIARY_PARTENAIRES = {
       "lat": -12.289942563129966,
       "lon": 49.291381037077876,
       "coordonnees_brutes": "-12.289942563129966, 49.291381037077876",
+      "description": "Supermaché",
       "region": "Diana"
     },
     {
@@ -91,7 +94,7 @@ window.EARIARY_PARTENAIRES = {
     },
     {
       "nom": "Sucré salé Shop",
-      "categorie": "Boutique",
+      "categorie": "Supermarché",
       "province": "Tolagnaro",
       "lat": -25.03559939919153,
       "lon": 46.99496525966426,
@@ -109,7 +112,7 @@ window.EARIARY_PARTENAIRES = {
     },
     {
       "nom": "B Boutique mdg",
-      "categorie": "Boutique",
+      "categorie": "Magasin de mode",
       "province": "Tolagnaro",
       "lat": -25.022354544265976,
       "lon": 46.98536221066723,
@@ -118,11 +121,11 @@ window.EARIARY_PARTENAIRES = {
     },
     {
       "nom": "Boutique Annia Tine",
-      "categorie": "Boutique",
+      "categorie": "Boutique de mode",
       "province": "Tolagnaro",
       "lat": null,
       "lon": null,
-      "coordonnees_brutes": "Introuvable, quartier Amparihy",
+      "coordonnees_brutes": "Boutique",
       "region": "Anosy"
     },
     {
@@ -132,6 +135,7 @@ window.EARIARY_PARTENAIRES = {
       "lat": -18.158589676212383,
       "lon": 49.41215244822356,
       "coordonnees_brutes": "-18.158589676212383, 49.41215244822356",
+      "description": "Restaurant",
       "region": "Atsinanana"
     },
     {
